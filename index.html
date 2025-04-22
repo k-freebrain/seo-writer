@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>SEO記事メーカー</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 20px;
+    }
+    textarea, input {
+      width: 100%;
+      margin-top: 8px;
+      margin-bottom: 16px;
+      padding: 8px;
+      font-size: 16px;
+    }
+    .info {
+      margin-bottom: 16px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+  <h1>SEO記事メーカー</h1>
+
+  <label>タイトル</label>
+  <input type="text" id="title">
+
+  <label>本文</label>
+  <textarea id="content" rows="10"></textarea>
+
+  <label>SEOキーワード</label>
+  <input type="text" id="keyword">
+
+  <div class="info">
+    文字数: <span id="charCount">0</span>文字 ／
+    キーワード出現回数: <span id="keywordCount">0</span>回
+  </div>
+
+  <button onclick="saveArticle()">保存する</button>
+
+  <script>
+    const contentInput = document.getElementById('content');
+    const keywordInput = document.getElementById('keyword');
+    const charCount = document.getElementById('charCount');
+    const keywordCount = document.getElementById('keywordCount');
+
+    function updateStats() {
+      const content = contentInput.value;
+      const keyword = keywordInput.value;
+      charCount.textContent = content.length;
+      keywordCount.textContent = keyword ? (content.split(keyword).length - 1) : 0;
+    }
+
+    contentInput.addEventListener('input', updateStats);
+    keywordInput.addEventListener('input', updateStats);
+
+    function saveArticle() {
+      const title = document.getElementById('title').value;
+      const content = contentInput.value;
+      const keyword = keywordInput.value;
+
+      const article = {
+        title, content, keyword, createdAt: new Date().toISOString()
+      };
+
+      localStorage.setItem('savedArticle', JSON.stringify(article));
+      alert('記事を保存しました！');
+    }
+  </script>
+</body>
+</html>
